@@ -1,0 +1,2203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Laskar Waktu: Petualangan Sejarah Nusantara — Game Edukasi Interaktif</title>
+  <meta name="description" content="Game interaktif edukasi sejarah Indonesia melintasi era kerajaan, perlawanan kolonial, kebangkitan nasional, dan detik-detik proklamasi kemerdekaan.">
+  
+  <!-- Favicon Emoji -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⏳</text></svg>">
+
+  <!-- Google Fonts: Plus Jakarta Sans, Fredoka, & Cinzel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            title: ['"Cinzel"', 'serif'],
+            game: ['"Fredoka"', 'cursive', 'sans-serif'],
+          },
+          colors: {
+            pusaka: {
+              50: '#fffbeb',
+              100: '#fef3c7',
+              200: '#fde68a',
+              300: '#fcd34d',
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
+              800: '#92400e',
+              900: '#78350f',
+            },
+            merdeka: {
+              50: '#fef2f2',
+              100: '#fee2e2',
+              500: '#ef4444',
+              600: '#dc2626',
+              700: '#b91c1c',
+              800: '#991b1b',
+              900: '#7f1d1d',
+            },
+            samudra: {
+              800: '#1e1b4b',
+              900: '#0f172a',
+              950: '#020617',
+            }
+          },
+          animation: {
+            'float': 'float 3.5s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+            'spin-slow': 'spin 12s linear infinite',
+            'scale-up': 'scaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.8', filter: 'drop-shadow(0 0 15px rgba(245, 158, 11, 0.4))' },
+              '50%': { opacity: '1', filter: 'drop-shadow(0 0 25px rgba(245, 158, 11, 0.8))' },
+            },
+            scaleUp: {
+              '0%': { transform: 'scale(0.9)', opacity: '0' },
+              '100%': { transform: 'scale(1)', opacity: '1' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Styling & Interactive Polish */
+    body {
+      background-color: #0b0f19;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(220, 38, 38, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(245, 158, 11, 0.15) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(30, 27, 75, 0.4) 0px, transparent 60%);
+      background-attachment: fixed;
+      color: #f1f5f9;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Batik subtle pattern overlay */
+    .batik-pattern {
+      background-image: radial-gradient(rgba(245, 158, 11, 0.08) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .glass-card {
+      background: rgba(30, 41, 59, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .glass-card:hover {
+      border-color: rgba(245, 158, 11, 0.5);
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 12px 25px -5px rgba(245, 158, 11, 0.25);
+    }
+    .glass-card:active {
+      transform: translateY(-1px) scale(0.99);
+    }
+
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #d97706 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .merahputih-gradient-text {
+      background: linear-gradient(135deg, #ffffff 0%, #fee2e2 40%, #ef4444 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #f59e0b;
+    }
+
+    /* Confetti Canvas */
+    #confettiCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 100;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans antialiased batik-pattern selection:bg-pusaka-500 selection:text-black">
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- TOP HEADER / NAV HUD -->
+  <header class="sticky top-0 z-40 glass-panel border-b border-pusaka-500/20 px-3 sm:px-6 py-2.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-2.5 cursor-pointer" onclick="navigateTo('home')">
+        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-merdeka-600 via-pusaka-500 to-amber-300 p-0.5 shadow-lg shadow-pusaka-500/30 flex items-center justify-center animate-pulse-glow">
+          <div class="w-full h-full bg-samudra-950 rounded-[10px] flex items-center justify-center text-xl sm:text-2xl">
+            🏛️
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-title font-extrabold text-base sm:text-lg tracking-wider gold-gradient-text">LASKAR WAKTU</span>
+            <span class="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-merdeka-600/30 border border-merdeka-500/50 text-merdeka-200 hidden sm:inline-block">NUSANTARA</span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-medium hidden sm:block">Petualangan Interaktif Lintas Masa</p>
+        </div>
+      </div>
+
+      <!-- Player HUD Stats -->
+      <div class="flex items-center gap-2 sm:gap-4">
+        <!-- Chrono Gems (Koin Waktu) -->
+        <div class="flex items-center gap-1.5 bg-slate-900/80 border border-amber-500/30 px-2.5 py-1 rounded-full shadow-inner" title="Permata Waktu untuk membuka petunjuk">
+          <span class="text-sm">💎</span>
+          <span id="playerGems" class="font-game font-bold text-amber-300 text-xs sm:text-sm">50</span>
+        </div>
+
+        <!-- Player Level Badge -->
+        <div class="flex items-center gap-1.5 bg-slate-900/80 border border-indigo-500/30 px-2.5 py-1 rounded-full shadow-inner" title="Gelar & Level Sejarah Kamu">
+          <span id="playerAvatarIcon" class="text-sm">🧭</span>
+          <div class="flex flex-col">
+            <span id="playerTitle" class="text-[10px] text-indigo-300 font-bold uppercase tracking-wider hidden md:inline">Kadet Waktu</span>
+            <span class="font-game text-xs text-white"><span id="playerExp">0</span> XP</span>
+          </div>
+        </div>
+
+        <!-- Quick Sound Controls -->
+        <div class="flex items-center gap-1 bg-slate-900/70 p-1 rounded-xl border border-slate-700/60">
+          <button id="btnBgmToggle" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-300 hover:text-amber-400 hover:bg-slate-800 transition" title="Musik Latar (BGM)" onclick="toggleBGM()">
+            <span id="bgmIcon">🎵</span>
+          </button>
+          <button id="btnSfxToggle" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-300 hover:text-amber-400 hover:bg-slate-800 transition" title="Efek Suara (SFX)" onclick="toggleSFX()">
+            <span id="sfxIcon">🔊</span>
+          </button>
+        </div>
+
+        <!-- Profile & Trophy Button -->
+        <button onclick="openModal('modalAchievements')" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-600 p-0.5 text-black font-bold flex items-center justify-center hover:scale-105 transition shadow-md shadow-amber-500/30" title="Museum Medali & Prestasi">
+          🏆
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 flex flex-col">
+
+    <!-- ========================================== -->
+    <!-- VIEW: HOME (BERANDA & PILIHAN MODE) -->
+    <!-- ========================================== -->
+    <section id="viewHome" class="space-y-6 sm:space-y-8 animate-scale-up">
+      <!-- Hero Banner -->
+      <div class="relative overflow-hidden rounded-2xl glass-panel p-6 sm:p-10 border border-pusaka-500/30 shadow-2xl">
+        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-pusaka-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-10 -top-10 w-64 h-64 bg-merdeka-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-3xl space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pusaka-500/20 border border-pusaka-500/40 text-amber-300 text-xs font-semibold">
+            <span>✨</span> Badai Waktu Menyerang Arsip Nusantara!
+          </div>
+          <h1 class="text-2xl sm:text-4xl md:text-5xl font-title font-extrabold leading-tight tracking-wide">
+            Jadilah <span class="gold-gradient-text">Penjelajah Waktu</span> & Selamatkan Sejarah Bangsa!
+          </h1>
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+            Pecahkan misteri kerajaan maritim nusantara, kobarkan semangat para pahlawan perang perlawanan kolonial, rasakan getaran ikrar Sumpah Pemuda, hingga tegakkan detik-detik Proklamasi Kemerdekaan 17 Agustus 1945!
+          </p>
+
+          <div class="pt-2 flex flex-wrap items-center gap-3">
+            <button onclick="startStoryMode()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-merdeka-600 via-pusaka-600 to-amber-500 text-white font-game font-bold text-base shadow-xl shadow-pusaka-500/25 hover:shadow-pusaka-500/40 hover:scale-[1.02] active:scale-[0.98] transition flex items-center gap-2">
+              <span>🚀 Mulai Petualangan Cerita</span>
+            </button>
+            <button onclick="openModal('modalGuide')" class="px-4 py-3 rounded-xl bg-slate-800/90 hover:bg-slate-700/90 border border-slate-700 text-slate-200 font-semibold text-sm transition flex items-center gap-1.5">
+              <span>📖 Cara Bermain</span>
+            </button>
+            <button onclick="openModal('modalCertificate')" class="px-4 py-3 rounded-xl bg-amber-950/60 hover:bg-amber-900/60 border border-amber-600/50 text-amber-200 font-semibold text-sm transition flex items-center gap-1.5">
+              <span>📜 Cetak Piagam Kelulusan</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Daily Trivia Card -->
+      <div class="glass-card rounded-2xl p-4 sm:p-5 flex items-start sm:items-center justify-between gap-4 border-l-4 border-l-amber-500">
+        <div class="flex items-start sm:items-center gap-3.5">
+          <div class="text-3xl shrink-0 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400">
+            💡
+          </div>
+          <div>
+            <div class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-0.5">Tahukah Kamu? (Trivia Waktu)</div>
+            <p id="triviaText" class="text-xs sm:text-sm text-slate-300 italic">
+              "Teks Proklamasi Kemerdekaan Indonesia diketik oleh Sayuti Melik menggunakan mesin tik pinjaman dari kantor perwakilan militer Jerman (Kriegsmarine) milik Mayor Kandeler."
+            </p>
+          </div>
+        </div>
+        <button onclick="randomizeTrivia()" class="shrink-0 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700 transition" title="Ganti Fakta Sejarah">
+          Acak 🔄
+        </button>
+      </div>
+
+      <!-- GAME MODES SELECTION GRID -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-lg sm:text-xl font-title font-bold text-white flex items-center gap-2">
+              <span>⚔️</span> Pilih Wahana Petualangan
+            </h2>
+            <p class="text-xs text-slate-400">Setiap mode melatih ketangkasan dan pengetahuan sejarah yang berbeda</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          <!-- Mode 1: Ekspedisi Lini Masa (Story Mode) -->
+          <div onclick="startStoryMode()" class="glass-card group rounded-2xl p-5 cursor-pointer relative overflow-hidden flex flex-col justify-between border-t-2 border-t-merdeka-500 hover:border-t-merdeka-400">
+            <div class="space-y-3">
+              <div class="w-12 h-12 rounded-xl bg-merdeka-500/20 border border-merdeka-500/40 flex items-center justify-center text-2xl group-hover:scale-110 transition">
+                🧭
+              </div>
+              <div>
+                <span class="text-[10px] font-bold text-merdeka-400 uppercase tracking-widest">Mode 1 • Narasi & Keputusan</span>
+                <h3 class="text-base sm:text-lg font-title font-bold text-white group-hover:text-amber-300 transition">
+                  Ekspedisi Lini Masa
+                </h3>
+              </div>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Jelajahi 5 Era Akbar Sejarah Indonesia melalui dialog hidup para pahlawan dan tentukan keputusan taktis.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs font-semibold text-merdeka-300">
+              <span>5 Babak Besar</span>
+              <span class="group-hover:translate-x-1 transition">Mulai →</span>
+            </div>
+          </div>
+
+          <!-- Mode 2: Susun Garis Waktu (Timeline Puzzle) -->
+          <div onclick="startTimelineMode()" class="glass-card group rounded-2xl p-5 cursor-pointer relative overflow-hidden flex flex-col justify-between border-t-2 border-t-amber-500 hover:border-t-amber-400">
+            <div class="space-y-3">
+              <div class="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-2xl group-hover:scale-110 transition">
+                ⏳
+              </div>
+              <div>
+                <span class="text-[10px] font-bold text-amber-400 uppercase tracking-widest">Mode 2 • Logika Kronologi</span>
+                <h3 class="text-base sm:text-lg font-title font-bold text-white group-hover:text-amber-300 transition">
+                  Susun Garis Waktu
+                </h3>
+              </div>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Urutkan kartu peristiwa sejarah yang teracak dari masa terlama hingga terkini. Uji daya ingat kronologimu!
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs font-semibold text-amber-300">
+              <span>Teka-Teki Kartu</span>
+              <span class="group-hover:translate-x-1 transition">Mulai →</span>
+            </div>
+          </div>
+
+          <!-- Mode 3: Detektif Tokoh & Artefak (Mystery Quiz) -->
+          <div onclick="startMysteryMode()" class="glass-card group rounded-2xl p-5 cursor-pointer relative overflow-hidden flex flex-col justify-between border-t-2 border-t-emerald-500 hover:border-t-emerald-400">
+            <div class="space-y-3">
+              <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-2xl group-hover:scale-110 transition">
+                🔍
+              </div>
+              <div>
+                <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Mode 3 • Tebak Misteri</span>
+                <h3 class="text-base sm:text-lg font-title font-bold text-white group-hover:text-amber-300 transition">
+                  Detektif Artefak
+                </h3>
+              </div>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Buka petunjuk rahasia berkas arsip, tebak nama pahlawan nasional, prasasti kuno, atau benda pusaka legendaris!
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs font-semibold text-emerald-300">
+              <span>15+ Misteri Arsip</span>
+              <span class="group-hover:translate-x-1 transition">Mulai →</span>
+            </div>
+          </div>
+
+          <!-- Mode 4: Atlas Nusantara Interaktif (Interactive Regional Map) -->
+          <div onclick="startAtlasMode()" class="glass-card group rounded-2xl p-5 cursor-pointer relative overflow-hidden flex flex-col justify-between border-t-2 border-t-cyan-500 hover:border-t-cyan-400">
+            <div class="space-y-3">
+              <div class="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-2xl group-hover:scale-110 transition">
+                🗺️
+              </div>
+              <div>
+                <span class="text-[10px] font-bold text-cyan-400 uppercase tracking-widest">Mode 4 • Eksplorasi Peta</span>
+                <h3 class="text-base sm:text-lg font-title font-bold text-white group-hover:text-amber-300 transition">
+                  Atlas Nusantara
+                </h3>
+              </div>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Jelajahi peta kepulauan Indonesia dari Sabang hingga Merauke. Temukan pahlawan dan kerajaan di setiap pulau!
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs font-semibold text-cyan-300">
+              <span>Jelajah 7 Kawasan</span>
+              <span class="group-hover:translate-x-1 transition">Buka Peta →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW: EKSPEDISI LINI MASA (STORY MODE) -->
+    <!-- ========================================== -->
+    <section id="viewStory" class="hidden space-y-6 animate-scale-up">
+      <!-- Breadcrumb & Nav -->
+      <div class="flex items-center justify-between flex-wrap gap-3 pb-2 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <button onclick="navigateTo('home')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold transition flex items-center gap-1">
+            ← Menu Utama
+          </button>
+          <span class="text-slate-600">/</span>
+          <span class="text-amber-400 font-title font-bold text-sm sm:text-base">Ekspedisi Lini Masa</span>
+        </div>
+        <!-- Progress Bar Indicator -->
+        <div class="flex items-center gap-2 text-xs text-slate-300">
+          <span>Era: <strong id="storyCurrentEraName" class="text-amber-300">-</strong></span>
+          <div class="w-24 sm:w-36 h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
+            <div id="storyProgressBar" class="h-full bg-gradient-to-r from-merdeka-500 to-pusaka-500 transition-all duration-300" style="width: 20%;"></div>
+          </div>
+          <span id="storyProgressText" class="font-game font-bold text-amber-400">1/5</span>
+        </div>
+      </div>
+
+      <!-- Main Story Interactive Card -->
+      <div class="glass-panel rounded-2xl p-5 sm:p-8 space-y-6 relative overflow-hidden border border-pusaka-500/30">
+        <!-- Badge Era & Lokasi -->
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-2">
+            <span id="storyEraBadge" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-pusaka-500/20 text-amber-300 border border-pusaka-500/30">
+              Era 1: Kejayaan Kerajaan Maritim
+            </span>
+            <span id="storyYearBadge" class="px-2.5 py-1 rounded-md text-xs font-mono text-slate-300 bg-slate-800 border border-slate-700">
+              Abad ke-4 - 15 Masehi
+            </span>
+          </div>
+          <div class="text-xs text-slate-400 flex items-center gap-1">
+            <span>📍 Titik Waktu:</span>
+            <strong id="storyLocation" class="text-slate-200">Kutai & Majapahit</strong>
+          </div>
+        </div>
+
+        <!-- Story Narrative Box -->
+        <div class="space-y-4">
+          <div class="flex items-start gap-4">
+            <div id="storyCharacterAvatar" class="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-2xl bg-gradient-to-tr from-amber-600 to-yellow-400 p-0.5 shadow-xl flex items-center justify-center text-3xl sm:text-4xl animate-float">
+              👑
+            </div>
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <h3 id="storyCharacterName" class="text-lg sm:text-xl font-title font-bold text-white">Mahapatih Gajah Mada</h3>
+                <span id="storyCharacterRole" class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">Tokoh Legendaris</span>
+              </div>
+              <p id="storyDialogText" class="text-slate-300 text-sm sm:text-base leading-relaxed bg-slate-900/60 p-3.5 sm:p-4 rounded-xl border border-slate-800">
+                "Di hadapan Prabu Tribhuwana Tunggadewi dan para pembesar Majapahit, kami bertekad mempersatukan gugusan pulau-pulau nusantara di bawah panji kemakmuran!"
+              </p>
+            </div>
+          </div>
+
+          <!-- Situation / Challenge Description -->
+          <div class="bg-amber-950/20 border border-amber-600/30 p-4 rounded-xl">
+            <div class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+              <span>⚡</span> Tantangan Situasional Arsip Waktu
+            </div>
+            <p id="storyQuestionText" class="text-sm sm:text-base font-semibold text-white">
+              Apa nama sumpah agung yang diucapkan Gajah Mada saat dilantik menjadi Mahapatih Amangkubhumi Majapahit pada tahun 1336 M?
+            </p>
+          </div>
+        </div>
+
+        <!-- Interactive Options List -->
+        <div id="storyOptionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+          <!-- Dynamic Buttons Injected by JS -->
+        </div>
+
+        <!-- Explanation & Feedback Panel (Hidden until user clicks) -->
+        <div id="storyFeedbackPanel" class="hidden p-4 rounded-xl space-y-3 transition-all duration-300">
+          <div class="flex items-center gap-2">
+            <span id="storyFeedbackIcon" class="text-2xl">🎉</span>
+            <h4 id="storyFeedbackTitle" class="font-title font-bold text-base sm:text-lg">Tepat Sekali!</h4>
+          </div>
+          <p id="storyFeedbackDetail" class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Sumpah Palapa adalah ikrar Gajah Mada untuk tidak menikmati istirahat atau kesenangan duniawi sebelum berhasil menyatukan wilayah Nusantara di bawah naungan Kerajaan Majapahit.
+          </p>
+          <div class="flex items-center justify-end gap-3 pt-2">
+            <button id="btnStoryNext" onclick="nextStoryQuestion()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 text-black font-game font-bold text-sm shadow-lg hover:scale-105 active:scale-95 transition">
+              Lanjut Petualangan →
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW: SUSUN GARIS WAKTU (TIMELINE PUZZLE) -->
+    <!-- ========================================== -->
+    <section id="viewTimeline" class="hidden space-y-6 animate-scale-up">
+      <!-- Breadcrumb & Nav -->
+      <div class="flex items-center justify-between flex-wrap gap-3 pb-2 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <button onclick="navigateTo('home')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold transition flex items-center gap-1">
+            ← Menu Utama
+          </button>
+          <span class="text-slate-600">/</span>
+          <span class="text-amber-400 font-title font-bold text-sm sm:text-base">Susun Garis Waktu</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-xs text-slate-400">Ronde: <strong id="timelineRoundIndicator" class="text-amber-300">1 / 4</strong></span>
+          <button onclick="resetCurrentTimelineRound()" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700">
+            Acak Ulang 🔀
+          </button>
+        </div>
+      </div>
+
+      <!-- Puzzle Instructions -->
+      <div class="glass-panel rounded-2xl p-4 sm:p-6 border border-amber-500/30 space-y-4">
+        <div class="flex items-start sm:items-center justify-between gap-3 flex-wrap">
+          <div>
+            <h2 id="timelineTopicTitle" class="text-base sm:text-xl font-title font-bold text-white flex items-center gap-2">
+              <span>⏳</span> Susunlah Peristiwa Berikut Secara Kronologis (Terlama ke Terkini)
+            </h2>
+            <p class="text-xs text-slate-400">Gunakan tombol panah 🔼 / 🔽 pada tiap kartu untuk menaikkan atau menurunkan urutan peristiwa.</p>
+          </div>
+          <button onclick="checkTimelineSubmission()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-game font-bold text-sm shadow-lg shadow-emerald-500/20 hover:scale-105 active:scale-95 transition flex items-center gap-1.5">
+            <span>✅ Verifikasi Urutan</span>
+          </button>
+        </div>
+
+        <!-- Draggable / Sortable Cards Container -->
+        <div id="timelineCardsContainer" class="space-y-3 pt-2">
+          <!-- Cards injected by JS -->
+        </div>
+
+        <!-- Feedback & Explanation Result -->
+        <div id="timelineFeedbackBox" class="hidden p-4 rounded-xl border space-y-3 transition-all duration-300">
+          <div class="flex items-center gap-2">
+            <span id="timelineFeedbackIcon" class="text-2xl">✨</span>
+            <h4 id="timelineFeedbackTitle" class="font-title font-bold text-base">Hasil Verifikasi</h4>
+          </div>
+          <div id="timelineFactList" class="space-y-2 text-xs sm:text-sm text-slate-300">
+            <!-- Chronology timeline breakdown injected here -->
+          </div>
+          <div class="pt-2 flex justify-end">
+            <button id="btnTimelineNext" onclick="nextTimelineRound()" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-game font-bold text-sm transition">
+              Ronde Berikutnya →
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW: DETEKTIF TOKOH & ARTEFAK (MYSTERY QUIZ) -->
+    <!-- ========================================== -->
+    <section id="viewMystery" class="hidden space-y-6 animate-scale-up">
+      <!-- Breadcrumb & Nav -->
+      <div class="flex items-center justify-between flex-wrap gap-3 pb-2 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <button onclick="navigateTo('home')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold transition flex items-center gap-1">
+            ← Menu Utama
+          </button>
+          <span class="text-slate-600">/</span>
+          <span class="text-emerald-400 font-title font-bold text-sm sm:text-base">Detektif Tokoh & Artefak</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-xs text-slate-300">Kasus: <strong id="mysteryCaseNumber" class="text-emerald-400">1 / 10</strong></span>
+        </div>
+      </div>
+
+      <!-- Case Dossier Box -->
+      <div class="glass-panel rounded-2xl p-5 sm:p-8 border border-emerald-500/30 space-y-6">
+        <div class="flex items-center justify-between flex-wrap gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-2xl">
+              📂
+            </div>
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Berkas Rahasia Arsip Waktu</span>
+              <h2 class="text-lg sm:text-xl font-title font-bold text-white">Siapakah Sosok / Benda Bersejarah Ini?</h2>
+            </div>
+          </div>
+          <div class="text-xs px-3 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-slate-300 flex items-center gap-1.5">
+            <span>🔍 Petunjuk Terbuka:</span>
+            <span id="cluesUnlockedCounter" class="font-bold text-emerald-300">1 / 3</span>
+          </div>
+        </div>
+
+        <!-- Clues List with Reveal Buttons -->
+        <div class="space-y-3">
+          <!-- Clue 1 (Always free) -->
+          <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-start gap-3">
+            <span class="p-1 rounded bg-emerald-500/20 text-emerald-400 text-xs font-bold shrink-0">Petunjuk 1</span>
+            <p id="mysteryClue1" class="text-xs sm:text-sm text-slate-200">
+              Mendapat julukan pahlawan dari timur dan gigih mempertahankan kedaulatan tanah kelahirannya.
+            </p>
+          </div>
+
+          <!-- Clue 2 -->
+          <div id="mysteryClue2Box" class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-start justify-between gap-3">
+            <div class="flex items-start gap-3 flex-1">
+              <span class="p-1 rounded bg-amber-500/20 text-amber-400 text-xs font-bold shrink-0">Petunjuk 2</span>
+              <p id="mysteryClue2" class="text-xs sm:text-sm text-slate-400 italic">
+                [Terkunci] Buka petunjuk kedua untuk membaca kutipan atau pusaka pahlawan.
+              </p>
+            </div>
+            <button id="btnUnlockClue2" onclick="unlockClue(2)" class="shrink-0 px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs transition">
+              Buka (Gratis) 🔓
+            </button>
+          </div>
+
+          <!-- Clue 3 -->
+          <div id="mysteryClue3Box" class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-start justify-between gap-3">
+            <div class="flex items-start gap-3 flex-1">
+              <span class="p-1 rounded bg-cyan-500/20 text-cyan-400 text-xs font-bold shrink-0">Petunjuk 3</span>
+              <p id="mysteryClue3" class="text-xs sm:text-sm text-slate-400 italic">
+                [Terkunci] Buka petunjuk ketiga untuk mengetahui peristiwa puncak perjuangannya.
+              </p>
+            </div>
+            <button id="btnUnlockClue3" onclick="unlockClue(3)" class="shrink-0 px-2.5 py-1 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold text-xs transition">
+              Buka (-5 💎) 🔓
+            </button>
+          </div>
+        </div>
+
+        <!-- Silhouette / Visual Placeholder -->
+        <div class="flex justify-center py-2">
+          <div id="mysteryIconDisplay" class="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-slate-900 border-2 border-emerald-500/30 flex items-center justify-center text-5xl sm:text-6xl shadow-2xl animate-float">
+            ❓
+          </div>
+        </div>
+
+        <!-- Choice Options -->
+        <div id="mysteryOptionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+          <!-- Options injected by JS -->
+        </div>
+
+        <!-- Feedback Panel -->
+        <div id="mysteryFeedbackPanel" class="hidden p-4 rounded-xl space-y-3 transition-all duration-300">
+          <div class="flex items-center gap-2">
+            <span id="mysteryFeedbackIcon" class="text-2xl">🌟</span>
+            <h4 id="mysteryFeedbackTitle" class="font-title font-bold text-base sm:text-lg">Tepat Sekali!</h4>
+          </div>
+          <p id="mysteryFeedbackBio" class="text-xs sm:text-sm text-slate-300 leading-relaxed"></p>
+          <div class="flex justify-end pt-2">
+            <button onclick="nextMysteryCase()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 text-black font-game font-bold text-sm shadow-lg hover:scale-105 active:scale-95 transition">
+              Kasus Berikutnya →
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW: ATLAS NUSANTARA (INTERACTIVE MAP) -->
+    <!-- ========================================== -->
+    <section id="viewAtlas" class="hidden space-y-6 animate-scale-up">
+      <!-- Breadcrumb & Nav -->
+      <div class="flex items-center justify-between flex-wrap gap-3 pb-2 border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <button onclick="navigateTo('home')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold transition flex items-center gap-1">
+            ← Menu Utama
+          </button>
+          <span class="text-slate-600">/</span>
+          <span class="text-cyan-400 font-title font-bold text-sm sm:text-base">Atlas Nusantara</span>
+        </div>
+        <p class="text-xs text-slate-400">Pilih pulau untuk menyingkap jejak sejarahnya</p>
+      </div>
+
+      <!-- Islands Grid Map -->
+      <div class="glass-panel rounded-2xl p-5 sm:p-8 border border-cyan-500/30 space-y-6">
+        <div>
+          <h2 class="text-lg sm:text-2xl font-title font-bold text-white flex items-center gap-2">
+            <span>🗺️</span> Peta Kepulauan Indonesia & Peninggalan Sejarah
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300">Klik wilayah kepulauan berikut untuk membuka lembar sejarah, kerajaan maritim/agraris kuno, dan tokoh pejuang lokal:</p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+          <!-- Sumatera -->
+          <button onclick="openIslandDetail('sumatera')" class="glass-card p-4 rounded-xl text-left border-t-2 border-t-amber-500 hover:border-t-amber-300 space-y-2">
+            <div class="text-3xl">🌴</div>
+            <h4 class="font-title font-bold text-white text-sm sm:text-base">Sumatera</h4>
+            <p class="text-[11px] text-slate-400">Sriwijaya, Samudera Pasai, Tuanku Imam Bonjol, Cut Nyak Dhien</p>
+          </button>
+
+          <!-- Jawa -->
+          <button onclick="openIslandDetail('jawa')" class="glass-card p-4 rounded-xl text-left border-t-2 border-t-red-500 hover:border-t-red-300 space-y-2">
+            <div class="text-3xl">🌋</div>
+            <h4 class="font-title font-bold text-white text-sm sm:text-base">Jawa</h4>
+            <p class="text-[11px] text-slate-400">Tarumanegara, Mataram Kuno, Majapahit, Diponegoro, Soekarno-Hatta</p>
+          </button>
+
+          <!-- Kalimantan -->
+          <button onclick="openIslandDetail('kalimantan')" class="glass-card p-4 rounded-xl text-left border-t-2 border-t-emerald-500 hover:border-t-emerald-300 space-y-2">
+            <div class="text-3xl">🏞️</div>
+            <h4 class="font-title font-bold text-white text-sm sm:text-base">Kalimantan</h4>
+            <p class="text-[11px] text-slate-400">Kerajaan Kutai Martapura (Prasasti Yupa tertua), Pangeran Antasari</p>
+          </button>
+
+          <!-- Sulawesi -->
+          <button onclick="openIslandDetail('sulawesi')" class="glass-card p-4 rounded-xl text-left border-t-2 border-t-cyan-500 hover:border-t-cyan-300 space-y-2">
+            <div class="text-3xl">⛵</div>
+            <h4 class="font-title font-bold text-white text-sm sm:text-base">Sulawesi</h4>
+            <p class="text-[11px] text-slate-400">Kesultanan Gowa-Tallo, Sultan Hasanuddin, Sam Ratulangi</p>
+          </button>
+
+          <!-- Bali & Nusa Tenggara -->
+          <button onclick="openIslandDetail('nusatenggara')" class="glass-card p-4 rounded-xl text-left border-t-2 border-t-purple-500 hover:border-t-purple-300 space-y-2">
+            <div class="text-3xl">🛕</div>
+            <h4 class="font-title font-bold text-white text-sm sm:text-base">Bali & Nusa Tenggara</h4>
+            <p class="text-[11px] text-slate-400">I Gusti Ngurah Rai (Perang Puputan Margarana), Udayana</p>
+          </button>
+
+          <!-- Maluku -->
+          <button onclick="openIslandDetail('maluku')" class="glass-card p-4 rounded-xl text-left border-t-2 border-t-yellow-500 hover:border-t-yellow-300 space-y-2">
+            <div class="text-3xl">🧭</div>
+            <h4 class="font-title font-bold text-white text-sm sm:text-base">Maluku (Kep. Rempah)</h4>
+            <p class="text-[11px] text-slate-400">Kesultanan Ternate & Tidore, Kapitan Pattimura, Christina Martha Tiahahu</p>
+          </button>
+
+          <!-- Papua -->
+          <button onclick="openIslandDetail('papua')" class="glass-card p-4 rounded-xl text-left border-t-2 border-t-blue-500 hover:border-t-blue-300 space-y-2">
+            <div class="text-3xl">🦅</div>
+            <h4 class="font-title font-bold text-white text-sm sm:text-base">Papua</h4>
+            <p class="text-[11px] text-slate-400">Frans Kaisiepo, Silas Papare, Marthen Indey (Integritas NKRI)</p>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- MODAL: DETAIL PULAU ATLAS -->
+  <!-- ========================================== -->
+  <div id="modalIsland" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="glass-panel w-full max-w-2xl rounded-2xl p-6 border border-cyan-500/40 space-y-5 relative animate-scale-up max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <div class="flex items-center gap-3">
+          <span id="islandModalEmoji" class="text-3xl">🌴</span>
+          <div>
+            <h3 id="islandModalTitle" class="text-lg sm:text-xl font-title font-bold text-white">Sumatera</h3>
+            <span id="islandModalSubtitle" class="text-xs text-cyan-400 font-semibold">Jalur Sutra Maritim & Swarnadwipa</span>
+          </div>
+        </div>
+        <button onclick="closeModal('modalIsland')" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-base flex items-center justify-center transition">
+          ✕
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs sm:text-sm text-slate-300">
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-1">
+          <h4 class="font-bold text-amber-300 flex items-center gap-1.5">
+            <span>👑</span> Kerajaan Bersejarah:
+          </h4>
+          <p id="islandModalKingdoms" class="text-slate-300 leading-relaxed"></p>
+        </div>
+
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-1">
+          <h4 class="font-bold text-merdeka-300 flex items-center gap-1.5">
+            <span>⚔️</span> Tokoh Pahlawan & Perjuangan:
+          </h4>
+          <p id="islandModalHeroes" class="text-slate-300 leading-relaxed"></p>
+        </div>
+
+        <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-1">
+          <h4 class="font-bold text-emerald-300 flex items-center gap-1.5">
+            <span>🏛️</span> Peninggalan & Fakta Unik:
+          </h4>
+          <p id="islandModalFacts" class="text-slate-300 leading-relaxed"></p>
+        </div>
+      </div>
+
+      <div class="pt-2 flex justify-end gap-3 border-t border-slate-800">
+        <button onclick="closeModal('modalIsland')" class="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: PRESTASI & MUSEUM MEDALI -->
+  <!-- ========================================== -->
+  <div id="modalAchievements" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="glass-panel w-full max-w-2xl rounded-2xl p-6 border border-pusaka-500/40 space-y-5 relative animate-scale-up max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="text-3xl">🏆</div>
+          <div>
+            <h3 class="text-lg sm:text-xl font-title font-bold text-white">Museum Prestasi & Medali Pahlawan</h3>
+            <span class="text-xs text-amber-400 font-semibold">Koleksi pencapaian sejarah kamu</span>
+          </div>
+        </div>
+        <button onclick="closeModal('modalAchievements')" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-base flex items-center justify-center transition">
+          ✕
+        </button>
+      </div>
+
+      <!-- Medals Grid -->
+      <div id="achievementsList" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
+        <button onclick="resetAllProgress()" class="text-xs text-red-400 hover:text-red-300 font-semibold underline">
+          Reset Seluruh Progres
+        </button>
+        <button onclick="closeModal('modalAchievements')" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-game font-bold text-xs transition">
+          Tutup Museum
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: CARA BERMAIN & PANDUAN -->
+  <!-- ========================================== -->
+  <div id="modalGuide" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="glass-panel w-full max-w-xl rounded-2xl p-6 border border-slate-700 space-y-5 relative animate-scale-up max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl">📖</span>
+          <h3 class="text-lg font-title font-bold text-white">Panduan Penjelajah Waktu</h3>
+        </div>
+        <button onclick="closeModal('modalGuide')" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-base flex items-center justify-center transition">
+          ✕
+        </button>
+      </div>
+
+      <div class="space-y-3.5 text-xs sm:text-sm text-slate-300 leading-relaxed">
+        <div class="flex items-start gap-3">
+          <span class="p-2 rounded-xl bg-merdeka-500/20 text-merdeka-400 text-lg">1</span>
+          <div>
+            <strong class="text-white">Ekspedisi Lini Masa:</strong> Ikuti narasi perjalanan dari era kerajaan Nusantara, perlawanan kolonial, hingga proklamasi kemerdekaan. Jawab setiap pertanyaan taktis untuk mendapatkan XP & Koin Waktu.
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="p-2 rounded-xl bg-amber-500/20 text-amber-400 text-lg">2</span>
+          <div>
+            <strong class="text-white">Susun Garis Waktu:</strong> Urutkan kartu-kartu peristiwa penting dengan menekan tombol 🔼 dan 🔽. Susunlah dari tahun peristiwa paling awal hingga paling baru.
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 text-lg">3</span>
+          <div>
+            <strong class="text-white">Detektif Artefak:</strong> Analisis petunjuk rahasia berkas arsip pahlawan. Gunakan koin waktu jika kamu butuh petunjuk tambahan untuk menebak sosok tokoh pejuang.
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="p-2 rounded-xl bg-cyan-500/20 text-cyan-400 text-lg">4</span>
+          <div>
+            <strong class="text-white">Piagam Penghargaan:</strong> Kumpulkan XP dan cetak langsung Sertifikat Resmi Penjelajah Sejarah Nusantara dengan namamu sendiri!
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-2 flex justify-end">
+        <button onclick="closeModal('modalGuide')" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-game font-bold text-xs transition">
+          Saya Siap Menjelajah! 🚀
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: SERTIFIKAT KELULUSAN INTERAKTIF -->
+  <!-- ========================================== -->
+  <div id="modalCertificate" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="glass-panel w-full max-w-2xl rounded-2xl p-6 border border-amber-500/40 space-y-4 relative animate-scale-up max-h-[95vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl">📜</span>
+          <h3 class="text-lg font-title font-bold text-white">Piagam Gelar Kehormatan Pahlawan Sejarah</h3>
+        </div>
+        <button onclick="closeModal('modalCertificate')" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-base flex items-center justify-center transition">
+          ✕
+        </button>
+      </div>
+
+      <!-- Input Player Name for Certificate -->
+      <div class="flex items-center gap-2">
+        <label for="inputCertName" class="text-xs text-slate-300 font-semibold shrink-0">Nama Lengkap:</label>
+        <input type="text" id="inputCertName" placeholder="Masukkan nama kamu..." class="flex-1 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-white text-xs focus:outline-none focus:border-amber-500" oninput="renderCertificateCanvas()">
+        <button onclick="renderCertificateCanvas()" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs">
+          Perbarui 🖋️
+        </button>
+      </div>
+
+      <!-- Certificate Preview (Canvas) -->
+      <div class="w-full flex justify-center bg-slate-950 p-2 rounded-xl border border-slate-800 overflow-hidden shadow-2xl">
+        <canvas id="certCanvas" width="800" height="560" class="max-w-full h-auto rounded-lg shadow-lg border border-amber-500/40"></canvas>
+      </div>
+
+      <!-- Download & Print Actions -->
+      <div class="pt-2 flex items-center justify-between flex-wrap gap-2">
+        <span class="text-[11px] text-slate-400">Tersertifikasi otomatis berdasarkan pencapaian waktu kamu</span>
+        <div class="flex items-center gap-2">
+          <button onclick="downloadCertificate()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-merdeka-600 to-amber-600 hover:scale-105 text-white font-game font-bold text-xs transition flex items-center gap-1.5 shadow-md">
+            <span>💾 Unduh Gambar (PNG)</span>
+          </button>
+          <button onclick="window.print()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs transition">
+            🖨️ Cetak / PDF
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="mt-auto border-t border-slate-800/80 py-4 px-4 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-1.5">
+        <span>🇮🇩</span>
+        <span>Laskar Waktu: Kronika Sejarah Nusantara &copy; 2026. Merdeka Belajar!</span>
+      </div>
+      <div class="flex items-center gap-3 text-slate-400">
+        <span>Kutai • Majapahit • Sumpah Pemuda • Proklamasi 1945</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT GAME ENGINE & AUDIO SYNTH -->
+  <!-- ========================================== -->
+  <script>
+    /* =====================================================================
+       1. GAME STATE & LOCALSTORAGE PERSISTENCE
+       ===================================================================== */
+    const STORAGE_KEY = 'laskar_waktu_save_v1';
+
+    let gameState = {
+      playerName: 'Penjelajah Waktu',
+      exp: 0,
+      gems: 50,
+      level: 1,
+      soundBgm: false,
+      soundSfx: true,
+      storyIndex: 0,
+      timelineRound: 0,
+      mysteryIndex: 0,
+      unlockedAchievements: ['first_login'],
+    };
+
+    function loadSavedGame() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          gameState = { ...gameState, ...parsed };
+        }
+      } catch (e) {
+        console.warn('Gagal memuat save game:', e);
+      }
+      updateHUD();
+    }
+
+    function saveGame() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
+      } catch (e) {
+        console.warn('Gagal menyimpan game:', e);
+      }
+      updateHUD();
+    }
+
+    function addExp(points) {
+      gameState.exp += points;
+      // Level check
+      const newLevel = Math.floor(gameState.exp / 100) + 1;
+      if (newLevel > gameState.level) {
+        gameState.level = newLevel;
+        triggerCelebration();
+        playSfxFanfare();
+        showNotification(`🎉 SELAMAT! Kamu naik ke Level ${newLevel}!`);
+      }
+      saveGame();
+    }
+
+    function addGems(count) {
+      gameState.gems += count;
+      saveGame();
+    }
+
+    function getPlayerRank(level) {
+      if (level <= 1) return 'Kadet Sejarah';
+      if (level <= 3) return 'Penyelidik Babak';
+      if (level <= 5) return 'Pendekar Kronologi';
+      if (level <= 8) return 'Arsiparis Waktu Agung';
+      return 'Mahaguru Sejarah Nusantara';
+    }
+
+    function updateHUD() {
+      const expEl = document.getElementById('playerExp');
+      const gemsEl = document.getElementById('playerGems');
+      const titleEl = document.getElementById('playerTitle');
+      const avatarEl = document.getElementById('playerAvatarIcon');
+
+      if (expEl) expEl.textContent = gameState.exp;
+      if (gemsEl) gemsEl.textContent = gameState.gems;
+      if (titleEl) titleEl.textContent = `Lv.${gameState.level} ${getPlayerRank(gameState.level)}`;
+      if (avatarEl) {
+        if (gameState.level >= 5) avatarEl.textContent = '👑';
+        else if (gameState.level >= 3) avatarEl.textContent = '🛡️';
+        else avatarEl.textContent = '🧭';
+      }
+    }
+
+    /* =====================================================================
+       2. WEB AUDIO API SYNTHESIZER (ZERO EXTERNAL MP3 DEPENDENCY)
+       ===================================================================== */
+    let audioCtx = null;
+    let bgmOscillator1 = null;
+    let bgmOscillator2 = null;
+    let bgmGain = null;
+    let isBgmPlaying = false;
+    let bgmInterval = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function toggleBGM() {
+      initAudio();
+      isBgmPlaying = !isBgmPlaying;
+      gameState.soundBgm = isBgmPlaying;
+      const icon = document.getElementById('bgmIcon');
+
+      if (isBgmPlaying) {
+        if (icon) icon.textContent = '🎶';
+        startAmbientBGM();
+      } else {
+        if (icon) icon.textContent = '🎵';
+        stopAmbientBGM();
+      }
+      saveGame();
+    }
+
+    function toggleSFX() {
+      gameState.soundSfx = !gameState.soundSfx;
+      const icon = document.getElementById('sfxIcon');
+      if (icon) {
+        icon.textContent = gameState.soundSfx ? '🔊' : '🔇';
+      }
+      if (gameState.soundSfx) playSfxClick();
+      saveGame();
+    }
+
+    // Melodi Gamelan Pentatonik Tradisional (Slendro & Pelog Synth)
+    const gamelanScale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25]; // C D E G A C
+    let melodyIndex = 0;
+
+    function startAmbientBGM() {
+      stopAmbientBGM();
+      if (!audioCtx) initAudio();
+
+      bgmGain = audioCtx.createGain();
+      bgmGain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+      bgmGain.connect(audioCtx.destination);
+
+      bgmInterval = setInterval(() => {
+        if (!isBgmPlaying || !audioCtx) return;
+        const now = audioCtx.currentTime;
+        const freq = gamelanScale[melodyIndex % gamelanScale.length];
+        melodyIndex = (melodyIndex + 1 + Math.floor(Math.random() * 2)) % gamelanScale.length;
+
+        // Tone Oscillator
+        const osc = audioCtx.createOscillator();
+        const noteGain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now);
+
+        noteGain.gain.setValueAtTime(0.08, now);
+        noteGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
+
+        osc.connect(noteGain);
+        noteGain.connect(bgmGain);
+
+        osc.start(now);
+        osc.stop(now + 1.3);
+      }, 550);
+    }
+
+    function stopAmbientBGM() {
+      if (bgmInterval) clearInterval(bgmInterval);
+      if (bgmGain) {
+        try { bgmGain.disconnect(); } catch (e) {}
+      }
+    }
+
+    // Interactive SFX Synthesizers
+    function playSfxClick() {
+      if (!gameState.soundSfx) return;
+      initAudio();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.09);
+    }
+
+    function playSfxCorrect() {
+      if (!gameState.soundSfx) return;
+      initAudio();
+      const now = audioCtx.currentTime;
+      // Arpeggio Major Chord (C - E - G - High C)
+      [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + i * 0.08);
+        gain.gain.setValueAtTime(0.18, now + i * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.35);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now + i * 0.08);
+        osc.stop(now + i * 0.08 + 0.36);
+      });
+    }
+
+    function playSfxWrong() {
+      if (!gameState.soundSfx) return;
+      initAudio();
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.exponentialRampToValueAtTime(140, now + 0.25);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.26);
+    }
+
+    function playSfxFanfare() {
+      if (!gameState.soundSfx) return;
+      initAudio();
+      const now = audioCtx.currentTime;
+      const notes = [392.00, 523.25, 659.25, 783.99, 1046.50];
+      notes.forEach((freq, idx) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+        gain.gain.setValueAtTime(0.2, now + idx * 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.45);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now + idx * 0.1);
+        osc.stop(now + idx * 0.1 + 0.46);
+      });
+    }
+
+    /* =====================================================================
+       3. NAVIGATION & VIEW SWITCHER
+       ===================================================================== */
+    function navigateTo(viewId) {
+      playSfxClick();
+      const views = ['viewHome', 'viewStory', 'viewTimeline', 'viewMystery', 'viewAtlas'];
+      views.forEach(v => {
+        const el = document.getElementById(v);
+        if (el) el.classList.add('hidden');
+      });
+
+      let target = 'viewHome';
+      if (viewId === 'story') target = 'viewStory';
+      if (viewId === 'timeline') target = 'viewTimeline';
+      if (viewId === 'mystery') target = 'viewMystery';
+      if (viewId === 'atlas') target = 'viewAtlas';
+
+      const targetEl = document.getElementById(target);
+      if (targetEl) targetEl.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openModal(id) {
+      playSfxClick();
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('hidden');
+      if (id === 'modalAchievements') renderAchievements();
+      if (id === 'modalCertificate') renderCertificateCanvas();
+    }
+
+    function closeModal(id) {
+      playSfxClick();
+      const el = document.getElementById(id);
+      if (el) el.classList.add('hidden');
+    }
+
+    /* =====================================================================
+       4. TRIVIA & DAILY FACTS DATABASE
+       ===================================================================== */
+    const triviaList = [
+      "Teks Proklamasi Kemerdekaan Indonesia diketik oleh Sayuti Melik menggunakan mesin tik pinjaman dari kantor perwakilan militer Angkatan Laut Jerman milik Mayor Kandeler.",
+      "Sumpah Palapa diucapkan oleh Mahapatih Gajah Mada pada upacara pengangkatannya menjadi Amangkubhumi Majapahit pada tahun 1336 Masehi.",
+      "Bendera Pusaka Merah Putih pertama kali dijahit tangan oleh Ibu Fatmawati Soekarno dengan kain katun jepang berwarna merah dan putih.",
+      "Lagu kebangsaan Indonesia Raya pertama kali dikumandangkan dengan gesekan biola oleh Wage Rudolf Supratman pada Kongres Pemuda II tanggal 28 Oktober 1928.",
+      "Kerajaan Kutai Martapura di Kalimantan Timur merupakan kerajaan Hindu tertua di Indonesia, dibuktikan dengan penemuan 7 prasasti Yupa bertarikh sekitar 400 Masehi.",
+      "Jenderal Soedirman memimpin perang gerilya selama 7 bulan menempuh ribuan kilometer di pedalaman Jawa dalam kondisi paru-paru hanya berfungsi sebelah dan ditandu.",
+      "Candi Borobudur dibangun pada abad ke-8 dan ke-9 Masehi pada masa pemerintahan Wangsa Syailendra di Kerajaan Mataram Kuno Jawa Tengah.",
+      "Sultan Hasanuddin dari Kesultanan Gowa diberi julukan 'Ayam Jantan dari Timur' (De Haantjes van Het Oosten) oleh Belanda karena keberaniannya menentang monopoli VOC."
+    ];
+
+    function randomizeTrivia() {
+      playSfxClick();
+      const idx = Math.floor(Math.random() * triviaList.length);
+      const triviaEl = document.getElementById('triviaText');
+      if (triviaEl) triviaEl.textContent = `"${triviaList[idx]}"`;
+    }
+
+    /* =====================================================================
+       5. DATA & LOGIC: MODE 1 — EKSPEDISI LINI MASA (STORY MODE)
+       ===================================================================== */
+    const storyChapters = [
+      {
+        era: 'Era 1: Kejayaan Kerajaan Maritim & Agraris',
+        year: 'Abad ke-4 — 15 Masehi',
+        location: 'Kutai & Majapahit',
+        character: 'Mahapatih Gajah Mada',
+        avatar: '👑',
+        role: 'Penyatu Nusantara',
+        dialog: '"Di hadapan Yang Mulia Ratu Tribhuwana Tunggadewi, hamba bersumpah tidak akan bersenang-senang sebelum Nusantara bersatu di bawah kejayaan Majapahit!"',
+        question: 'Apakah nama ikrar bersejarah yang diucapkan oleh Mahapatih Gajah Mada pada tahun 1336 M tersebut?',
+        options: [
+          { text: 'A. Sumpah Palapa', correct: true },
+          { text: 'B. Prasasti Nalanda', correct: false },
+          { text: 'C. Piagam Jakarta', correct: false },
+          { text: 'D. Deklarasi Djuanda', correct: false },
+        ],
+        explanation: 'Sumpah Palapa diikrarkan Gajah Mada dengan tekad tidak akan memakan buah palapa (menikmati kemewahan atau rempah istirahat) sebelum menyatukan Gurun, Seram, Tanjungpura, Haru, Pahang, Dompo, Bali, Sunda, Palembang, dan Tumasik.'
+      },
+      {
+        era: 'Era 2: Perlawanan Terhadap Kolonialisme & Monopoli',
+        year: 'Abad ke-17 — 19 Masehi',
+        location: 'Benteng Somba Opu, Gowa & Perang Jawa',
+        character: 'Sultan Hasanuddin & Pangeran Diponegoro',
+        avatar: '⚔️',
+        role: 'Singa Perlawanan Rakyat',
+        dialog: '"VOC hendak memonopoli perniagaan rempah-rempah dan menindas martabat rakyat nusantara. Kami lebih memilih berjuang sampai tetes darah penghabisan daripada tunduk!"',
+        question: 'Siapakah pahlawan asal Kesultanan Gowa yang dijuluki Belanda sebagai "Ayam Jantan dari Timur" karena kegigihannya melawan VOC?',
+        options: [
+          { text: 'A. Kapitan Pattimura', correct: false },
+          { text: 'B. Sultan Hasanuddin', correct: true },
+          { text: 'C. Tuanku Imam Bonjol', correct: false },
+          { text: 'D. Sultan Ageng Tirtayasa', correct: false },
+        ],
+        explanation: 'Sultan Hasanuddin memimpin Kerajaan Gowa-Tallo melawan agresi VOC Belanda dalam Perang Makassar. Keberanian armadanya membuat Belanda menyematkan julukan De Haantjes van Het Oosten.'
+      },
+      {
+        era: 'Era 3: Fajar Kebangkitan Nasional & Sumpah Pemuda',
+        year: 'Tahun 1908 — 1928',
+        location: 'Gedung STOVIA Batavia & Kramat Raya 106',
+        character: 'dr. Soetomo & Tokoh Pemuda',
+        avatar: '📜',
+        role: 'Pelopor Pergerakan Modern',
+        dialog: '"Perjuangan fisik kedaerahan telah berlalu kawan-kawan! Kini saatnya kita bersatu melalui organisasi modern, pendidikan, dan persatuan bahasa!"',
+        question: 'Pada tanggal 28 Oktober 1928, para pemuda mengikrarkan Sumpah Pemuda yang menegaskan tiga pilar persatuan, yaitu:',
+        options: [
+          { text: 'A. Satu Bahasa, Satu Agama, Satu Kebudayaan', correct: false },
+          { text: 'B. Satu Tanah Air, Satu Bangsa, dan Menjunjung Bahasa Persatuan Indonesia', correct: true },
+          { text: 'C. Satu Ideologi, Satu Partai, Satu Pemimpin', correct: false },
+          { text: 'D. Satu Wilayah, Satu Mata Uang, Satu Bendera', correct: false },
+        ],
+        explanation: 'Kongres Pemuda II melahirkan ikrar monumental bertumpah darah satu tanah air Indonesia, berbangsa satu bangsa Indonesia, dan menjunjung bahasa persatuan bahasa Indonesia.'
+      },
+      {
+        era: 'Era 4: Detik-Detik Proklamasi Kemerdekaan',
+        year: '16 — 17 Agustus 1945',
+        location: 'Rengasdengklok & Rumah Laksamana Maeda',
+        character: 'Sayuti Melik & Sukarni',
+        avatar: '🎙️',
+        role: 'Eksponen Angkatan Muda',
+        dialog: '"Jepang telah menyerah kepada Sekutu! Kemerdekaan ini bukan hadiah dari siapapun, melainkan jerih payah keringat dan darah tumpah darah bangsa kita sendiri!"',
+        question: 'Mengapa para pemuda (Chaerul Saleh, Sukarni, Wikana) membawa Soekarno dan Hatta ke Rengasdengklok pada tanggal 16 Agustus 1945?',
+        options: [
+          { text: 'A. Untuk menyembunyikan mereka dari tentara Sekutu', correct: false },
+          { text: 'B. Menjauhkan mereka dari pengaruh Jepang agar proklamasi segera diproklamasikan atas kekuatan sendiri', correct: true },
+          { text: 'C. Meminta izin kepada komandan tentara PETA di Jawa Barat', correct: false },
+          { text: 'D. Menyelenggarakan sidang resmi BPUPKI di luar Jakarta', correct: false },
+        ],
+        explanation: 'Peristiwa Rengasdengklok bertujuan mengamankan Bung Karno dan Bung Hatta agar tidak dipengaruhi janji manis marsekal Jepang Terauchi, sehingga kemerdekaan lahir murni sebagai revolusi bangsa.'
+      },
+      {
+        era: 'Era 5: Mempertahankan Kedaulatan & Diplomasi',
+        year: 'Tahun 1945 — 1949',
+        location: 'Surabaya, Yogyakarta, & Den Haag',
+        character: 'Bung Tomo & Jenderal Soedirman',
+        avatar: '🔥',
+        role: 'Benteng Kemerdekaan',
+        dialog: '"Selama banteng-banteng Indonesia masih mempunyai darah merah yang dapat membikin secarik kain putih menjadi merah dan putih, kita tidak akan menyerah kepada Sekutu dan NICA!"',
+        question: 'Peristiwa heroik pertempuran rakyat melawan tentara Sekutu di Surabaya yang kini diperingati setiap 10 November sebagai Hari Pahlawan terjadi pada tahun berapa?',
+        options: [
+          { text: 'A. 10 November 1945', correct: true },
+          { text: 'B. 10 November 1946', correct: false },
+          { text: 'C. 10 November 1948', correct: false },
+          { text: 'D. 10 November 1950', correct: false },
+        ],
+        explanation: 'Pertempuran Surabaya 10 November 1945 dipicu oleh tewasnya Brigadir Jenderal Mallaby dan penolakan rakyat Surabaya terhadap ultimatum Sekutu untuk menyerahkan senjata tanpa syarat.'
+      }
+    ];
+
+    let currentStoryStep = 0;
+
+    function startStoryMode() {
+      navigateTo('story');
+      currentStoryStep = 0;
+      renderStoryQuestion();
+    }
+
+    function renderStoryQuestion() {
+      const data = storyChapters[currentStoryStep];
+      if (!data) {
+        // Tamat mode cerita!
+        showStoryVictory();
+        return;
+      }
+
+      document.getElementById('storyEraBadge').textContent = data.era;
+      document.getElementById('storyYearBadge').textContent = data.year;
+      document.getElementById('storyLocation').textContent = data.location;
+      document.getElementById('storyCurrentEraName').textContent = `Babak ${currentStoryStep + 1}`;
+      document.getElementById('storyProgressText').textContent = `${currentStoryStep + 1} / ${storyChapters.length}`;
+      document.getElementById('storyProgressBar').style.width = `${((currentStoryStep + 1) / storyChapters.length) * 100}%`;
+
+      document.getElementById('storyCharacterAvatar').textContent = data.avatar;
+      document.getElementById('storyCharacterName').textContent = data.character;
+      document.getElementById('storyCharacterRole').textContent = data.role;
+      document.getElementById('storyDialogText').textContent = data.dialog;
+      document.getElementById('storyQuestionText').textContent = data.question;
+
+      // Options
+      const optContainer = document.getElementById('storyOptionsContainer');
+      optContainer.innerHTML = '';
+
+      data.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'w-full text-left p-3.5 sm:p-4 rounded-xl glass-card border border-slate-700/80 hover:border-amber-400 text-xs sm:text-sm font-semibold text-slate-100 transition flex items-center justify-between group';
+        btn.innerHTML = `
+          <span>${opt.text}</span>
+          <span class="text-slate-500 group-hover:text-amber-400 group-hover:translate-x-1 transition">➜</span>
+        `;
+        btn.onclick = () => submitStoryAnswer(opt.correct, data.explanation, btn);
+        optContainer.appendChild(btn);
+      });
+
+      // Reset feedback panel
+      const fbPanel = document.getElementById('storyFeedbackPanel');
+      fbPanel.classList.add('hidden');
+    }
+
+    function submitStoryAnswer(isCorrect, explanation, btnElement) {
+      const fbPanel = document.getElementById('storyFeedbackPanel');
+      const fbTitle = document.getElementById('storyFeedbackTitle');
+      const fbDetail = document.getElementById('storyFeedbackDetail');
+      const fbIcon = document.getElementById('storyFeedbackIcon');
+
+      // Disable all option buttons
+      const buttons = document.querySelectorAll('#storyOptionsContainer button');
+      buttons.forEach(b => b.disabled = true);
+
+      if (isCorrect) {
+        playSfxCorrect();
+        btnElement.classList.remove('border-slate-700/80');
+        btnElement.classList.add('border-emerald-500', 'bg-emerald-950/40', 'text-emerald-200');
+
+        fbPanel.className = 'p-4 rounded-xl space-y-3 bg-emerald-950/30 border border-emerald-500/40';
+        fbIcon.textContent = '🎉';
+        fbTitle.textContent = 'Jawaban Sangat Tepat! (+40 XP & +10 💎)';
+        fbTitle.className = 'font-title font-bold text-base text-emerald-400';
+        fbDetail.textContent = explanation;
+
+        addExp(40);
+        addGems(10);
+      } else {
+        playSfxWrong();
+        btnElement.classList.remove('border-slate-700/80');
+        btnElement.classList.add('border-red-500', 'bg-red-950/40', 'text-red-200');
+
+        fbPanel.className = 'p-4 rounded-xl space-y-3 bg-red-950/30 border border-red-500/40';
+        fbIcon.textContent = '💡';
+        fbTitle.textContent = 'Kurang Tepat, Jangan Patah Semangat! (+10 XP)';
+        fbTitle.className = 'font-title font-bold text-base text-red-400';
+        fbDetail.textContent = explanation;
+
+        addExp(10);
+      }
+
+      fbPanel.classList.remove('hidden');
+    }
+
+    function nextStoryQuestion() {
+      playSfxClick();
+      currentStoryStep++;
+      if (currentStoryStep >= storyChapters.length) {
+        showStoryVictory();
+      } else {
+        renderStoryQuestion();
+      }
+    }
+
+    function showStoryVictory() {
+      playSfxFanfare();
+      triggerCelebration();
+      unlockAchievement('story_master');
+
+      const optContainer = document.getElementById('storyOptionsContainer');
+      optContainer.innerHTML = '';
+
+      document.getElementById('storyQuestionText').textContent = 'Selamat! Kamu telah menyelesaikan seluruh rangkaian Ekspedisi Lini Masa Sejarah Indonesia!';
+      document.getElementById('storyDialogText').textContent = '"Arsip waktu telah pulih sempurna. Jiwa patriotisme dan pengetahuanmu kini mengalir abadi bersama pahlawan bangsa!"';
+
+      const fbPanel = document.getElementById('storyFeedbackPanel');
+      fbPanel.className = 'p-6 rounded-2xl bg-amber-950/40 border border-amber-500/50 space-y-4 text-center';
+      fbPanel.innerHTML = `
+        <div class="text-4xl animate-bounce">🏆</div>
+        <h3 class="text-xl font-title font-extrabold gold-gradient-text">EKSPEDISI LINI MASA LENGKAP!</h3>
+        <p class="text-xs sm:text-sm text-slate-300">Kamu mendapatkan medali gelar "Penjaga Sumpah Palapa & Proklamasi" serta 100 XP kehormatan!</p>
+        <div class="pt-2 flex justify-center gap-3">
+          <button onclick="openModal('modalCertificate')" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 text-black font-game font-bold text-sm shadow-lg hover:scale-105 transition">
+            Lihat Piagam Kelulusan 📜
+          </button>
+          <button onclick="navigateTo('home')" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition">
+            Kembali ke Menu
+          </button>
+        </div>
+      `;
+      fbPanel.classList.remove('hidden');
+    }
+
+    /* =====================================================================
+       6. DATA & LOGIC: MODE 2 — SUSUN GARIS WAKTU (TIMELINE PUZZLE)
+       ===================================================================== */
+    const timelineRounds = [
+      {
+        title: 'Ronde 1: Urutan Kerajaan Kuno & Maritim Nusantara',
+        items: [
+          { id: 1, title: 'Prasasti Yupa Kerajaan Kutai Martapura', year: '± 400 Masehi', desc: 'Bukti tertulis tertua peradaban Hindu di Nusantara di tepi Sungai Mahakam Kalimantan Timur.' },
+          { id: 2, title: 'Puncak Kejayaan Kerajaan Sriwijaya', year: 'Abad ke-7 — 9 M', desc: 'Pusat pembelajaran agama Buddha internasional dan penguasa jalur pelayaran Selat Malaka.' },
+          { id: 3, title: 'Pembangunan Candi Borobudur & Prambanan', year: 'Abad ke-8 — 9 M', desc: 'Mahakarya arsitektur Wangsa Syailendra dan Sanjaya di bumi Mataram Kuno.' },
+          { id: 4, title: 'Sumpah Palapa Mahapatih Gajah Mada', year: 'Tahun 1336 Masehi', desc: 'Janji agung mempersatukan wilayah kepulauan nusantara di bawah panji Majapahit.' }
+        ]
+      },
+      {
+        title: 'Ronde 2: Detik-Detik Peristiwa Menuju Proklamasi 1945',
+        items: [
+          { id: 1, title: 'Penjatuhan Bom Atom di Hiroshima & Nagasaki', year: '6 & 9 Agustus 1945', desc: 'Kekuatan Sekutu melumpuhkan Jepang dan memicu penyerahan tanpa syarat kepada Sekutu.' },
+          { id: 2, title: 'Penculikan Soekarno-Hatta ke Rengasdengklok', year: '16 Agustus 1945 Dini Hari', desc: 'Golongan pemuda mengamankan dwitunggal agar proklamasi bebas dari rekayasa militer Jepang.' },
+          { id: 3, title: 'Perumusan Naskah di Rumah Laksamana Maeda', year: '16-17 Agustus 1945 Malam', desc: 'Penyusunan kalimat proklamasi dan pengetikan naskah autentik oleh Sayuti Melik.' },
+          { id: 4, title: 'Pembacaan Teks Proklamasi di Pegangsaan Timur 56', year: '17 Agustus 1945 Pukul 10.00', desc: 'Kemerdekaan Indonesia secara resmi dikumandangkan ke seluruh penjuru dunia.' }
+        ]
+      },
+      {
+        title: 'Ronde 3: Mempertahankan Kedaulatan Republik',
+        items: [
+          { id: 1, title: 'Pertempuran Heroik 10 November Surabaya', year: 'Tahun 1945', desc: 'Rakyat dan laskar pemuda Surabaya bertempur gigih melawan tentara Sekutu Inggris.' },
+          { id: 2, title: 'Peristiwa Bandung Lautan Api', year: 'Maret 1946', desc: 'Bumi hangus Kota Bandung selatan oleh para pejuang agar tidak dijadikan markas Sekutu.' },
+          { id: 3, title: 'Serangan Umum 1 Maret 1949 di Yogyakarta', year: '1 Maret 1949', desc: 'TNI membuktikan kepada dunia internasional bahwa Republik Indonesia dan tentaranya masih ada.' },
+          { id: 4, title: 'Konferensi Meja Bundar (KMB) di Den Haag', year: 'Agustus - November 1949', desc: 'Belanda akhirnya secara resmi mengakui kedaulatan Republik Indonesia Serikat.' }
+        ]
+      }
+    ];
+
+    let currentTimelineIdx = 0;
+    let currentShuffledCards = [];
+
+    function startTimelineMode() {
+      navigateTo('timeline');
+      currentTimelineIdx = 0;
+      loadTimelineRound(currentTimelineIdx);
+    }
+
+    function loadTimelineRound(idx) {
+      const round = timelineRounds[idx];
+      if (!round) {
+        showTimelineVictory();
+        return;
+      }
+
+      document.getElementById('timelineTopicTitle').innerHTML = `<span>⏳</span> ${round.title}`;
+      document.getElementById('timelineRoundIndicator').textContent = `${idx + 1} / ${timelineRounds.length}`;
+      document.getElementById('timelineFeedbackBox').classList.add('hidden');
+
+      // Shuffle items for the puzzle
+      currentShuffledCards = [...round.items];
+      // ensure it is shuffled
+      for (let i = currentShuffledCards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [currentShuffledCards[i], currentShuffledCards[j]] = [currentShuffledCards[j], currentShuffledCards[i]];
+      }
+
+      renderTimelineCards();
+    }
+
+    function resetCurrentTimelineRound() {
+      playSfxClick();
+      loadTimelineRound(currentTimelineIdx);
+    }
+
+    function renderTimelineCards() {
+      const container = document.getElementById('timelineCardsContainer');
+      container.innerHTML = '';
+
+      currentShuffledCards.forEach((card, pos) => {
+        const cardEl = document.createElement('div');
+        cardEl.className = 'p-3.5 sm:p-4 rounded-xl glass-card flex items-center justify-between gap-3 border border-slate-700/80 transition-all';
+        cardEl.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 font-game font-bold flex items-center justify-center text-sm shrink-0 border border-amber-500/30">
+              #${pos + 1}
+            </div>
+            <div>
+              <h4 class="font-title font-bold text-white text-xs sm:text-sm">${card.title}</h4>
+              <p class="text-[11px] text-slate-400 leading-snug">${card.desc}</p>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1 shrink-0">
+            <button onclick="moveTimelineCard(${pos}, -1)" ${pos === 0 ? 'disabled' : ''} class="w-7 h-7 rounded bg-slate-800 hover:bg-amber-600 disabled:opacity-30 disabled:hover:bg-slate-800 text-slate-200 hover:text-black flex items-center justify-center text-xs font-bold transition">
+              ▲
+            </button>
+            <button onclick="moveTimelineCard(${pos}, 1)" ${pos === currentShuffledCards.length - 1 ? 'disabled' : ''} class="w-7 h-7 rounded bg-slate-800 hover:bg-amber-600 disabled:opacity-30 disabled:hover:bg-slate-800 text-slate-200 hover:text-black flex items-center justify-center text-xs font-bold transition">
+              ▼
+            </button>
+          </div>
+        `;
+        container.appendChild(cardEl);
+      });
+    }
+
+    function moveTimelineCard(fromPos, direction) {
+      playSfxClick();
+      const toPos = fromPos + direction;
+      if (toPos < 0 || toPos >= currentShuffledCards.length) return;
+
+      const temp = currentShuffledCards[fromPos];
+      currentShuffledCards[fromPos] = currentShuffledCards[toPos];
+      currentShuffledCards[toPos] = temp;
+
+      renderTimelineCards();
+    }
+
+    function checkTimelineSubmission() {
+      const round = timelineRounds[currentTimelineIdx];
+      let isAllCorrect = true;
+
+      // Check if currentShuffledCards id matches 1, 2, 3, 4 sequentially
+      for (let i = 0; i < currentShuffledCards.length; i++) {
+        if (currentShuffledCards[i].id !== (i + 1)) {
+          isAllCorrect = false;
+          break;
+        }
+      }
+
+      const fbBox = document.getElementById('timelineFeedbackBox');
+      const fbIcon = document.getElementById('timelineFeedbackIcon');
+      const fbTitle = document.getElementById('timelineFeedbackTitle');
+      const factList = document.getElementById('timelineFactList');
+      const btnNext = document.getElementById('btnTimelineNext');
+
+      factList.innerHTML = '';
+
+      if (isAllCorrect) {
+        playSfxCorrect();
+        triggerCelebration();
+        addExp(50);
+        addGems(15);
+
+        fbBox.className = 'p-4 rounded-xl border border-emerald-500/50 bg-emerald-950/40 space-y-3';
+        fbIcon.textContent = '🌟';
+        fbTitle.textContent = 'Luar Biasa! Susunan Garis Waktu Sempurna (+50 XP)!';
+        fbTitle.className = 'font-title font-bold text-base text-emerald-400';
+        btnNext.textContent = currentTimelineIdx < timelineRounds.length - 1 ? 'Ronde Berikutnya →' : 'Selesaikan Teka-Teki 🏆';
+
+        round.items.forEach(item => {
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'p-2.5 rounded-lg bg-slate-900/80 border border-emerald-500/30 flex items-start justify-between gap-2';
+          itemDiv.innerHTML = `
+            <div>
+              <span class="font-bold text-white text-xs">${item.title}</span>
+              <p class="text-[11px] text-slate-300">${item.desc}</p>
+            </div>
+            <span class="shrink-0 px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-mono font-bold">${item.year}</span>
+          `;
+          factList.appendChild(itemDiv);
+        });
+
+      } else {
+        playSfxWrong();
+        fbBox.className = 'p-4 rounded-xl border border-red-500/50 bg-red-950/40 space-y-3';
+        fbIcon.textContent = '🔄';
+        fbTitle.textContent = 'Urutan Belum Tepat!';
+        fbTitle.className = 'font-title font-bold text-base text-red-400';
+        btnNext.textContent = 'Coba Atur Lagi';
+        factList.innerHTML = `<p class="text-xs text-slate-300">Perhatikan tahun kejadian dan alur sebab-akibat peristiwa. Geser kembali kartu dengan tombol panah!</p>`;
+      }
+
+      fbBox.classList.remove('hidden');
+    }
+
+    function nextTimelineRound() {
+      playSfxClick();
+      const fbBox = document.getElementById('timelineFeedbackBox');
+      if (fbBox.classList.contains('border-red-500/50')) {
+        // User clicked try again
+        fbBox.classList.add('hidden');
+        return;
+      }
+
+      currentTimelineIdx++;
+      if (currentTimelineIdx >= timelineRounds.length) {
+        showTimelineVictory();
+      } else {
+        loadTimelineRound(currentTimelineIdx);
+      }
+    }
+
+    function showTimelineVictory() {
+      playSfxFanfare();
+      triggerCelebration();
+      unlockAchievement('chronos_master');
+
+      const container = document.getElementById('timelineCardsContainer');
+      container.innerHTML = `
+        <div class="p-6 rounded-2xl glass-card border border-amber-500/40 text-center space-y-4">
+          <div class="text-4xl animate-bounce">⏳</div>
+          <h3 class="text-xl font-title font-extrabold gold-gradient-text">PENGUASA GARIS WAKTU!</h3>
+          <p class="text-xs sm:text-sm text-slate-300">Kamu telah membuktikan ketajaman logika kronologi sejarah dari zaman kerajaan hingga revolusi kemerdekaan!</p>
+          <div class="flex justify-center gap-3 pt-2">
+            <button onclick="navigateTo('home')" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-game font-bold text-sm transition">
+              Kembali ke Menu Utama
+            </button>
+          </div>
+        </div>
+      `;
+      document.getElementById('timelineFeedbackBox').classList.add('hidden');
+    }
+
+    /* =====================================================================
+       7. DATA & LOGIC: MODE 3 — DETEKTIF TOKOH & ARTEFAK (MYSTERY QUIZ)
+       ===================================================================== */
+    const mysteryCases = [
+      {
+        id: 1,
+        title: 'Pahlawan Pembawa Rencong dari Tanah Rencong',
+        clue1: 'Pahlawan wanita tangguh asal Aceh yang memimpin perang gerilya di hutan belantara melawan Belanda meski usia telah senja dan matanya rabun.',
+        clue2: 'Istri dari pejuang Teuku Umar, teguh bersumpah meneruskan perjuangan setelah suaminya gugur dalam pertempuran Meulaboh.',
+        clue3: 'Diasingkan oleh Belanda ke Sumedang Jawa Barat hingga akhir hayatnya dan dikenal oleh masyarakat setempat sebagai "Ibu Perbu".',
+        avatar: '🧕',
+        options: ['Cut Nyak Dhien', 'R.A. Kartini', 'Dewi Sartika', 'Martha Christina Tiahahu'],
+        answer: 'Cut Nyak Dhien',
+        bio: 'Cut Nyak Dhien (1848 - 1908) adalah pahlawan nasional wanita Indonesia asal Aceh yang gigih memimpin perlawanan bersenjata melawan penjajahan kolonial Belanda.'
+      },
+      {
+        id: 2,
+        title: 'Ksatria Penunggang Kuda Perang Jawa',
+        clue1: 'Bangsawan Keraton Yogyakarta yang memimpin Perang Jawa (1825–1830) yang membuat kas pemerintah Hindia Belanda bangkrut.',
+        clue2: 'Perlawanannya dipicu oleh pemasangan patok jalan Belanda yang melintasi makam leluhurnya di Tegalrejo tanpa izin.',
+        clue3: 'Ditangkap Belanda dengan tipu muslihat undangan perundingan damai di Wisma Karesidenan Magelang oleh Jenderal De Kock.',
+        avatar: '🐎',
+        options: ['Pangeran Diponegoro', 'Sultan Agung', 'Pakubuwono VI', 'Pangeran Antasari'],
+        answer: 'Pangeran Diponegoro',
+        bio: 'Pangeran Diponegoro memimpin Perang Jawa selama lima tahun dengan taktik perang gerilya yang melumpuhkan dominasi militer Belanda di pulau Jawa.'
+      },
+      {
+        id: 3,
+        title: 'Bapak Pendidikan Nasional Indonesia',
+        clue1: 'Bangsawan Puro Pakualaman dengan nama asli Raden Mas Soewardi Soerjaningrat yang menolak gelar kebangsawanan agar dekat dengan rakyat jelata.',
+        clue2: 'Mendirikan perguruan "Taman Siswa" pada tahun 1922 untuk memberi akses pendidikan bagi anak-anak pribumi jelata.',
+        clue3: 'Pencetus semboyan abadi: "Ing Ngarso Sung Tulodo, Ing Madyo Mangun Karso, Tut Wuri Handayani".',
+        avatar: '🎓',
+        options: ['Ki Hajar Dewantara', 'dr. Soetomo', 'K.H. Ahmad Dahlan', 'H.O.S. Tjokroaminoto'],
+        answer: 'Ki Hajar Dewantara',
+        bio: 'Ki Hajar Dewantara adalah pelopor pendidikan bagi kaum pribumi Indonesia. Tanggal kelahirannya, 2 Mei, diperingati setiap tahun sebagai Hari Pendidikan Nasional.'
+      },
+      {
+        id: 4,
+        title: 'Jenderal Besar Pemimpin Gerilya Tandu',
+        clue1: 'Panglima Besar Tentara Keamanan Rakyat (TKR) pertama yang dipilih secara demokratis oleh para perwira muda pada usia 29 tahun.',
+        clue2: 'Memimpin perang gerilya berbulan-bulan menembus hutan dan gunung di Jawa dalam kondisi satu paru-paru tak berfungsi dan ditandu para prajuritnya.',
+        clue3: 'Terkenal dengan kalimat: "Robek-robeklah badanku, potong-potonglah jasad ini, tetapi jiwaku yang dilindungi benteng Merah Putih akan tetap hidup!"',
+        avatar: '🎖️',
+        options: ['Jenderal Soedirman', 'Jenderal Ahmad Yani', 'Bung Tomo', 'Slamet Riyadi'],
+        answer: 'Jenderal Soedirman',
+        bio: 'Jenderal Besar Soedirman adalah simbol kegigihan dan kesetiaan tanpa pamrih prajurit TNI dalam mempertahankan kemerdekaan Indonesia dari agresi Belanda.'
+      },
+      {
+        id: 5,
+        title: 'Prasasti Kerajaan Tertua di Nusantara',
+        clue1: 'Benda cagar budaya berupa tiang batu andesit bertuliskan huruf Pallawa dan bahasa Sansekerta yang ditemukan di Kalimantan Timur.',
+        clue2: 'Menyebutkan silsilah Raja Kundungga, Asmawarman, dan Raja Mulawarman yang dermawan menyedekahkan 20.000 ekor sapi kepada para Brahmana.',
+        clue3: 'Berjumlah 7 buah batu prasasti bertarikh sekitar tahun 400 Masehi, menandai berakhirnya zaman pra-aksara di Indonesia.',
+        avatar: '🗿',
+        options: ['Prasasti Yupa Kutai', 'Prasasti Ciaruteun', 'Prasasti Kedukan Bukit', 'Prasasti Tugu'],
+        answer: 'Prasasti Yupa Kutai',
+        bio: 'Prasasti Yupa adalah peninggalan Kerajaan Kutai Martapura di Muara Kaman, Kalimantan Timur, yang menjadi bukti tertulis sejarah paling awal di Nusantara.'
+      }
+    ];
+
+    let currentMysteryIdx = 0;
+    let unlockedCluesCount = 1;
+
+    function startMysteryMode() {
+      navigateTo('mystery');
+      currentMysteryIdx = 0;
+      loadMysteryCase(currentMysteryIdx);
+    }
+
+    function loadMysteryCase(idx) {
+      const c = mysteryCases[idx];
+      if (!c) {
+        showMysteryVictory();
+        return;
+      }
+
+      unlockedCluesCount = 1;
+      document.getElementById('mysteryCaseNumber').textContent = `${idx + 1} / ${mysteryCases.length}`;
+      document.getElementById('cluesUnlockedCounter').textContent = `1 / 3`;
+
+      document.getElementById('mysteryClue1').textContent = c.clue1;
+
+      // Clue 2
+      document.getElementById('mysteryClue2').textContent = '[Terkunci] Buka petunjuk kedua untuk membaca kutipan atau pusaka pahlawan.';
+      document.getElementById('mysteryClue2').className = 'text-xs sm:text-sm text-slate-400 italic';
+      const btn2 = document.getElementById('btnUnlockClue2');
+      btn2.classList.remove('hidden');
+
+      // Clue 3
+      document.getElementById('mysteryClue3').textContent = '[Terkunci] Buka petunjuk ketiga untuk mengetahui peristiwa puncak perjuangannya.';
+      document.getElementById('mysteryClue3').className = 'text-xs sm:text-sm text-slate-400 italic';
+      const btn3 = document.getElementById('btnUnlockClue3');
+      btn3.classList.remove('hidden');
+
+      document.getElementById('mysteryIconDisplay').textContent = '❓';
+
+      // Render Options
+      const optContainer = document.getElementById('mysteryOptionsContainer');
+      optContainer.innerHTML = '';
+
+      c.options.forEach(optName => {
+        const btn = document.createElement('button');
+        btn.className = 'w-full text-left p-3.5 sm:p-4 rounded-xl glass-card border border-slate-700/80 hover:border-emerald-400 text-xs sm:text-sm font-semibold text-slate-100 transition flex items-center justify-between group';
+        btn.innerHTML = `
+          <span>${optName}</span>
+          <span class="text-slate-500 group-hover:text-emerald-400 group-hover:translate-x-1 transition">➜</span>
+        `;
+        btn.onclick = () => submitMysteryAnswer(optName, c, btn);
+        optContainer.appendChild(btn);
+      });
+
+      document.getElementById('mysteryFeedbackPanel').classList.add('hidden');
+    }
+
+    function unlockClue(level) {
+      playSfxClick();
+      const c = mysteryCases[currentMysteryIdx];
+      if (!c) return;
+
+      if (level === 2) {
+        document.getElementById('mysteryClue2').textContent = c.clue2;
+        document.getElementById('mysteryClue2').className = 'text-xs sm:text-sm text-slate-200';
+        document.getElementById('btnUnlockClue2').classList.add('hidden');
+        unlockedCluesCount = Math.max(unlockedCluesCount, 2);
+      } else if (level === 3) {
+        if (gameState.gems < 5) {
+          alert('Permata Waktu tidak cukup! Selesaikan mode lain untuk mendapatkan permata.');
+          return;
+        }
+        addGems(-5);
+        document.getElementById('mysteryClue3').textContent = c.clue3;
+        document.getElementById('mysteryClue3').className = 'text-xs sm:text-sm text-slate-200';
+        document.getElementById('btnUnlockClue3').classList.add('hidden');
+        unlockedCluesCount = 3;
+      }
+      document.getElementById('cluesUnlockedCounter').textContent = `${unlockedCluesCount} / 3`;
+    }
+
+    function submitMysteryAnswer(chosenName, caseData, btnElement) {
+      const fbPanel = document.getElementById('mysteryFeedbackPanel');
+      const fbIcon = document.getElementById('mysteryFeedbackIcon');
+      const fbTitle = document.getElementById('mysteryFeedbackTitle');
+      const fbBio = document.getElementById('mysteryFeedbackBio');
+
+      // Reveal silhouette avatar
+      document.getElementById('mysteryIconDisplay').textContent = caseData.avatar;
+
+      // Disable buttons
+      const buttons = document.querySelectorAll('#mysteryOptionsContainer button');
+      buttons.forEach(b => b.disabled = true);
+
+      if (chosenName === caseData.answer) {
+        playSfxCorrect();
+        btnElement.classList.add('border-emerald-500', 'bg-emerald-950/40', 'text-emerald-200');
+
+        fbPanel.className = 'p-4 rounded-xl space-y-3 bg-emerald-950/40 border border-emerald-500/50';
+        fbIcon.textContent = '🌟';
+        fbTitle.textContent = `Tepat Sekali! Itu adalah ${caseData.answer}! (+40 XP & +10 💎)`;
+        fbTitle.className = 'font-title font-bold text-base text-emerald-400';
+        fbBio.textContent = caseData.bio;
+
+        addExp(40);
+        addGems(10);
+      } else {
+        playSfxWrong();
+        btnElement.classList.add('border-red-500', 'bg-red-950/40', 'text-red-200');
+
+        fbPanel.className = 'p-4 rounded-xl space-y-3 bg-red-950/40 border border-red-500/50';
+        fbIcon.textContent = '💡';
+        fbTitle.textContent = `Sosok yang benar adalah: ${caseData.answer} (+10 XP)`;
+        fbTitle.className = 'font-title font-bold text-base text-red-400';
+        fbBio.textContent = caseData.bio;
+
+        addExp(10);
+      }
+
+      fbPanel.classList.remove('hidden');
+    }
+
+    function nextMysteryCase() {
+      playSfxClick();
+      currentMysteryIdx++;
+      if (currentMysteryIdx >= mysteryCases.length) {
+        showMysteryVictory();
+      } else {
+        loadMysteryCase(currentMysteryIdx);
+      }
+    }
+
+    function showMysteryVictory() {
+      playSfxFanfare();
+      triggerCelebration();
+      unlockAchievement('detective_master');
+
+      const optContainer = document.getElementById('mysteryOptionsContainer');
+      optContainer.innerHTML = '';
+
+      const fbPanel = document.getElementById('mysteryFeedbackPanel');
+      fbPanel.className = 'p-6 rounded-2xl glass-card border border-emerald-500/40 text-center space-y-4';
+      fbPanel.innerHTML = `
+        <div class="text-4xl animate-bounce">🔍</div>
+        <h3 class="text-xl font-title font-extrabold text-emerald-300">DETEKTIF SEJARAH ULUNG!</h3>
+        <p class="text-xs sm:text-sm text-slate-300">Seluruh berkas misteri arsip pahlawan telah terpecahkan dengan gemilang!</p>
+        <div class="flex justify-center gap-3 pt-2">
+          <button onclick="navigateTo('home')" class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-game font-bold text-sm transition">
+            Kembali ke Beranda
+          </button>
+        </div>
+      `;
+      fbPanel.classList.remove('hidden');
+    }
+
+    /* =====================================================================
+       8. DATA & LOGIC: MODE 4 — ATLAS NUSANTARA (INTERACTIVE MAP)
+       ===================================================================== */
+    const islandData = {
+      sumatera: {
+        title: 'Sumatera (Swarnadwipa / Pulau Emas)',
+        subtitle: 'Pusat Peradaban Maritim Buddha & Kesultanan Islam',
+        emoji: '🌴',
+        kingdoms: 'Kerajaan Sriwijaya (Palembang), Samudera Pasai (Aceh, kesultanan Islam pertama), Kesultanan Aceh Darussalam, Kesultanan Siak Sri Indrapura, Pagaruyung.',
+        heroes: 'Tuanku Imam Bonjol (Perang Padri), Cut Nyak Dhien & Teuku Umar (Perang Aceh), Sisingamangaraja XII (Tanah Batak), Sultan Mahmud Badaruddin II (Palembang).',
+        facts: 'Prasasti Kedukan Bukit bertarikh 682 M mencatat perjalanan suci Dapunta Hyang mendirikan Sriwijaya. Selat Malaka menjadi urat nadi perdagangan dunia selama ribuan tahun.'
+      },
+      jawa: {
+        title: 'Jawa (Jawadwipa / Pulau Padi)',
+        subtitle: 'Lumbung Agraris, Candi Megah, & Episentrum Kemerdekaan',
+        emoji: '🌋',
+        kingdoms: 'Tarumanegara (Jawa Barat), Mataram Kuno (Hindu-Buddha), Singasari, Majapahit (Trowulan), Kesultanan Demak, Pajang, Mataram Islam, Banten.',
+        heroes: 'Pangeran Diponegoro, Sultan Agung Hanyakrakusuma, R.A. Kartini, Ki Hajar Dewantara, Ir. Soekarno, Drs. Mohammad Hatta, Jenderal Soedirman.',
+        facts: 'Candi Borobudur dan Prambanan berdiri megah di abad ke-8 dan ke-9. Di Jakarta (Jl. Pegangsaan Timur 56), Proklamasi Kemerdekaan RI dibacakan pada 17 Agustus 1945.'
+      },
+      kalimantan: {
+        title: 'Kalimantan (Borneo / Warunadwipa)',
+        subtitle: 'Fajar Aksara Nusantara & Hutan Zamrud Khatulistiwa',
+        emoji: '🏞️',
+        kingdoms: 'Kerajaan Kutai Martapura (kerajaan tertua abad ke-4 M), Kesultanan Banjar, Kesultanan Kutai Kartanegara Ing Martadipura, Kesultanan Pontianak, Paser.',
+        heroes: 'Pangeran Antasari & Pangeran Hidayatullah (Perang Banjar), Pangsuma (Pejuang Dayak Melawan Jepang), Tjilik Riwut (Pahlawan Nasional Kalimantan Tengah).',
+        facts: '7 Prasasti Yupa di tepi Sungai Mahakam menandai lahirnya era sejarah tertulis di Indonesia. Semboyan Pangeran Antasari: "Haram Manyerah Waja Sampai Kaputing!"'
+      },
+      sulawesi: {
+        title: 'Sulawesi (Celebes)',
+        subtitle: 'Pelaut Tangguh Pinisi & Benteng Rempah',
+        emoji: '⛵',
+        kingdoms: 'Kesultanan Gowa-Tallo (Makassar), Kerajaan Bone (Arung Palakka), Kerajaan Luwu, Buton, Kesultanan Gorontalo.',
+        heroes: 'Sultan Hasanuddin ("Ayam Jantan dari Timur"), Dr. G.S.S.J. Ratulangi (Sam Ratulangi), Pong Tiku (Toraja), Aroeppala, Maria Walanda Maramis.',
+        facts: 'Perahu layar Pinisi buatan suku Bugis dan Makassar telah menjelajah samudera hingga benua Australia dan Madagaskar. Hukum maritim Amanna Gappa terkenal sejak abad ke-17.'
+      },
+      nusatenggara: {
+        title: 'Bali & Kepulauan Nusa Tenggara',
+        subtitle: 'Pura Leluhur & Benteng Semangat Puputan',
+        emoji: '🛕',
+        kingdoms: 'Kerajaan Bali Kuno (Dinasti Warmadewa), Kerajaan Gelgel, Klungkung, Buleleng, Kesultanan Bima (Sumbawa), Kerajaan Larantuka (Flores).',
+        heroes: 'I Gusti Ngurah Rai (Pemimpin Perang Puputan Margarana 1946), I Gusti Ketut Jelantik (Perang Jagaraga), Herman Johannes (Rote).',
+        facts: 'Tradisi Puputan adalah perang habis-habisan demi mempertahankan kehormatan dan kedaulatan tanah air hingga tetes darah penghabisan.'
+      },
+      maluku: {
+        title: 'Kepulauan Maluku (The Spice Islands)',
+        subtitle: 'Pusat Rempah Cengkih & Pala Dunia',
+        emoji: '🧭',
+        kingdoms: 'Kesultanan Ternate, Kesultanan Tidore, Bacan, Jailolo (Empat Pilar Moloku Kie Raha).',
+        heroes: 'Kapitan Pattimura (Thomas Matulessy), Christina Martha Tiahahu (Srikandi Muda Perang Saparua), Sultan Baabullah (Pengusir Portugis 1575).',
+        facts: 'Pulau Run di Kepulauan Banda pada tahun 1667 pernah ditukar oleh Belanda dengan pulau Manhattan di New York dari tangan Inggris demi memonopoli buah pala!'
+      },
+      papua: {
+        title: 'Papua (Tanah Cendrawasih)',
+        subtitle: 'Mutiara Hitam Timur & Pilar Kesatuan Bangsa',
+        emoji: '🦅',
+        kingdoms: 'Kekuasaan pengaruh maritim Kesultanan Tidore, Kerajaan Rumbati, Misool, Waigeo, Salawati (Kepulauan Raja Ampat).',
+        heroes: 'Frans Kaisiepo (Penggagas nama Irian - Ikut Republik Indonesia Anti Nederland), Silas Papare, Marthen Indey.',
+        facts: 'Frans Kaisiepo mengibarkan Merah Putih di Biak pada tahun 1945 dan menolak keras menjadi wakil Konferensi Malino buatan Belanda karena setianya kepada NKRI.'
+      }
+    };
+
+    function startAtlasMode() {
+      navigateTo('atlas');
+    }
+
+    function openIslandDetail(key) {
+      playSfxClick();
+      const data = islandData[key];
+      if (!data) return;
+
+      document.getElementById('islandModalEmoji').textContent = data.emoji;
+      document.getElementById('islandModalTitle').textContent = data.title;
+      document.getElementById('islandModalSubtitle').textContent = data.subtitle;
+      document.getElementById('islandModalKingdoms').textContent = data.kingdoms;
+      document.getElementById('islandModalHeroes').textContent = data.heroes;
+      document.getElementById('islandModalFacts').textContent = data.facts;
+
+      openModal('modalIsland');
+      addExp(15);
+      unlockAchievement('atlas_explorer');
+    }
+
+    /* =====================================================================
+       9. ACHIEVEMENTS & MUSEUM MEDALS
+       ===================================================================== */
+    const allAchievements = [
+      { id: 'first_login', title: 'Langkah Pertama', desc: 'Memulai perjalanan sebagai Penjelajah Waktu Nusantara.', icon: '🧭' },
+      { id: 'story_master', title: 'Penjaga Sumpah Palapa', desc: 'Menuntaskan seluruh babak petualangan Ekspedisi Lini Masa.', icon: '👑' },
+      { id: 'chronos_master', title: 'Master Garis Waktu', desc: 'Menyelesaikan teka-teki urutan kronologi sejarah tanpa salah.', icon: '⏳' },
+      { id: 'detective_master', title: 'Arsiparis Ulung', desc: 'Memecahkan seluruh misteri pahlawan nasional & artefak.', icon: '🔍' },
+      { id: 'atlas_explorer', title: 'Penjelajah 7 Pulau', desc: 'Membuka peta sejarah kepulauan Nusantara di Atlas Interaktif.', icon: '🗺️' },
+      { id: 'patriot_true', title: 'Jiwa Patriot 1945', desc: 'Meraih lebih dari 200 XP dalam petualangan sejarah.', icon: '🎖️' }
+    ];
+
+    function unlockAchievement(id) {
+      if (!gameState.unlockedAchievements.includes(id)) {
+        gameState.unlockedAchievements.push(id);
+        saveGame();
+        triggerCelebration();
+        playSfxFanfare();
+        const a = allAchievements.find(item => item.id === id);
+        if (a) showNotification(`🏆 Prestasi Terbuka: "${a.title}"!`);
+      }
+    }
+
+    function renderAchievements() {
+      const container = document.getElementById('achievementsList');
+      if (!container) return;
+      container.innerHTML = '';
+
+      allAchievements.forEach(a => {
+        const isUnlocked = gameState.unlockedAchievements.includes(a.id);
+        const card = document.createElement('div');
+        card.className = `p-3.5 rounded-xl border flex items-center gap-3 ${
+          isUnlocked 
+            ? 'glass-card border-amber-500/40 bg-amber-950/20' 
+            : 'border-slate-800 bg-slate-900/40 opacity-50'
+        }`;
+        card.innerHTML = `
+          <div class="text-3xl shrink-0 p-2 rounded-xl ${isUnlocked ? 'bg-amber-500/20' : 'bg-slate-800'}">
+            ${isUnlocked ? a.icon : '🔒'}
+          </div>
+          <div>
+            <h4 class="font-title font-bold text-xs sm:text-sm ${isUnlocked ? 'text-amber-300' : 'text-slate-400'}">
+              ${a.title}
+            </h4>
+            <p class="text-[11px] text-slate-400 leading-snug">${a.desc}</p>
+            <span class="text-[9px] font-bold uppercase tracking-wider ${isUnlocked ? 'text-emerald-400' : 'text-slate-500'}">
+              ${isUnlocked ? '✓ TERBUKA' : 'TERKUNCI'}
+            </span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function resetAllProgress() {
+      if (confirm('Apakah kamu yakin ingin mengulang seluruh perjalanan dan mereset nilai dari awal?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        gameState = {
+          playerName: 'Penjelajah Waktu',
+          exp: 0,
+          gems: 50,
+          level: 1,
+          soundBgm: false,
+          soundSfx: true,
+          storyIndex: 0,
+          timelineRound: 0,
+          mysteryIndex: 0,
+          unlockedAchievements: ['first_login'],
+        };
+        saveGame();
+        closeModal('modalAchievements');
+        navigateTo('home');
+        showNotification('Progres telah direset.');
+      }
+    }
+
+    /* =====================================================================
+       10. SERTIFIKAT KELULUSAN RESMI (HTML5 CANVAS 2D)
+       ===================================================================== */
+    function renderCertificateCanvas() {
+      const canvas = document.getElementById('certCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      const inputName = document.getElementById('inputCertName');
+      const playerName = (inputName && inputName.value.trim()) ? inputName.value.trim() : gameState.playerName;
+
+      // 1. Background Paper
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, w, h);
+
+      // Gold & Red Gradient Border
+      const grad = ctx.createLinearGradient(0, 0, w, h);
+      grad.addColorStop(0, '#f59e0b');
+      grad.addColorStop(0.5, '#ef4444');
+      grad.addColorStop(1, '#fbbf24');
+
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 10;
+      ctx.strokeRect(15, 15, w - 30, h - 30);
+
+      // Inner thin gold border
+      ctx.strokeStyle = 'rgba(245, 158, 11, 0.4)';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(25, 25, w - 50, h - 50);
+
+      // Corner Batik Ornaments
+      ctx.fillStyle = '#f59e0b';
+      ctx.font = '24px sans-serif';
+      ctx.fillText('🏛️', 35, 60);
+      ctx.fillText('🇮🇩', w - 65, 60);
+      ctx.fillText('📜', 35, h - 40);
+      ctx.fillText('⭐', w - 65, h - 40);
+
+      // Header Title
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = 'bold 16px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('PIAGAM PENGHARGAAN DAN KEHORMATAN', w / 2, 75);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 28px "Cinzel", serif';
+      ctx.fillText('LASKAR SEJARAH NUSANTARA', w / 2, 115);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = 'italic 14px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('Dengan bangga diserahkan kepada sang penjelajah waktu sejati:', w / 2, 160);
+
+      // Recipient Name
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = 'bold 36px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(playerName.toUpperCase(), w / 2, 220);
+
+      // Underline Name
+      ctx.strokeStyle = '#ef4444';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(w / 2 - 200, 235);
+      ctx.lineTo(w / 2 + 200, 235);
+      ctx.stroke();
+
+      // Achievement Prose
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '14px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('Atas keteguhan tekad, wawasan gemilang, dan keberhasilan mengungkap tabir', w / 2, 275);
+      ctx.fillText('perjalanan sejarah bangsa Indonesia melintasi era kerajaan maritim, perlawanan kolonial,', w / 2, 300);
+      ctx.fillText('hingga detik-detik Proklamasi Kemerdekaan 17 Agustus 1945.', w / 2, 325);
+
+      // Level & Rank Info
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 16px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(`Pangkat: ${getPlayerRank(gameState.level)} (Level ${gameState.level})  •  Total Pengalaman: ${gameState.exp} XP`, w / 2, 375);
+
+      // Date Stamp
+      const today = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '12px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(`Diterbitkan pada: ${today}`, w / 2, 420);
+
+      // Signatures & Official Seal
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#e2e8f0';
+      ctx.font = 'bold 13px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('Arsiparis Waktu Nusantara', 70, 480);
+      ctx.font = '11px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText('Pembina Kronika Bangsa', 70, 500);
+
+      // Gold Seal Badge Graphic on right
+      ctx.beginPath();
+      ctx.arc(w - 120, 470, 35, 0, Math.PI * 2);
+      ctx.fillStyle = '#d97706';
+      ctx.fill();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = '#fef08a';
+      ctx.stroke();
+
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#000000';
+      ctx.font = 'bold 10px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('AUTENTIK', w - 120, 465);
+      ctx.fillText('1945', w - 120, 480);
+    }
+
+    function downloadCertificate() {
+      playSfxClick();
+      const canvas = document.getElementById('certCanvas');
+      if (!canvas) return;
+      const link = document.createElement('a');
+      link.download = `Sertifikat_Laskar_Sejarah_${(gameState.playerName || 'Pahlawan').replace(/\s+/g, '_')}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    /* =====================================================================
+       11. NOTIFICATIONS & CONFETTI PARTICLES
+       ===================================================================== */
+    function showNotification(msg) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-5 right-5 z-50 glass-panel border border-amber-500/50 text-white text-xs sm:text-sm font-bold px-4 py-3 rounded-xl shadow-2xl animate-scale-up flex items-center gap-2';
+      toast.innerHTML = `<span>✨</span> <span>${msg}</span>`;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.style.transition = 'all 0.4s ease';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(15px)';
+        setTimeout(() => toast.remove(), 400);
+      }, 3500);
+    }
+
+    let confettiParticles = [];
+    let confettiAnim = null;
+
+    function triggerCelebration() {
+      const canvas = document.getElementById('confettiCanvas');
+      if (!canvas) return;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const ctx = canvas.getContext('2d');
+
+      const colors = ['#ef4444', '#ffffff', '#f59e0b', '#fbbf24', '#38bdf8', '#10b981'];
+      confettiParticles = [];
+
+      for (let i = 0; i < 120; i++) {
+        confettiParticles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height * 0.4 - 50,
+          w: Math.random() * 8 + 4,
+          h: Math.random() * 6 + 4,
+          vx: (Math.random() - 0.5) * 5,
+          vy: Math.random() * 4 + 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 10
+        });
+      }
+
+      if (confettiAnim) cancelAnimationFrame(confettiAnim);
+
+      let frames = 0;
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        frames++;
+
+        confettiParticles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.rotation += p.rotSpeed;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        });
+
+        if (frames < 140) {
+          confettiAnim = requestAnimationFrame(animate);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+      animate();
+    }
+
+    /* =====================================================================
+       12. INITIALIZATION ON PAGE LOAD
+       ===================================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSavedGame();
+      randomizeTrivia();
+    });
+  </script>
+</body>
+</html>
